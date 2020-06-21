@@ -54,9 +54,11 @@ RUN mkdir -p /root/.android \
 RUN while read -r package; do PACKAGES="${PACKAGES}${package} "; done < /sdk/packages.txt \
  && ${ANDROID_HOME}/cmdline-tools/tools/bin/sdkmanager --sdk_root=${ANDROID_HOME} ${PACKAGES}
 
+RUN curl -sL https://firebase.tools | sed 's#sudo##g' | upgrade=true bash
 
 RUN apt-get -qq update \
  && apt-get install -qqy --no-install-recommends build-essential ruby-full
 
-RUN gem update --system     
-RUN gem install bundler fastlane --no-rdoc --no-ri
+RUN gem update --system
+
+RUN gem install fastlane -NV bundler fastlane-plugin-firebase_app_distribution fastlane-plugin-appcenter
