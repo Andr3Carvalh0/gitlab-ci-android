@@ -62,3 +62,19 @@ RUN apt-get -qq update \
 RUN gem update --system
 
 RUN gem install fastlane -NV bundler fastlane-plugin-firebase_app_distribution fastlane-plugin-appcenter
+
+ARG GRADLE_VERSION=6.1.1
+ARG GRADLE_BASE_URL=https://services.gradle.org/distributions
+
+RUN mkdir -p /usr/share/gradle /usr/share/gradle/ref \
+  && curl -fsSL -o /tmp/gradle.zip ${GRADLE_BASE_URL}/gradle-${GRADLE_VERSION}-bin.zip \
+  && unzip -d /usr/share/gradle /tmp/gradle.zip \
+  && rm -f /tmp/gradle.zip \
+  && ln -s /usr/share/gradle/gradle-${GRADLE_VERSION} /usr/bin/gradle
+
+# 5- Define environmental variables required by gradle
+ENV GRADLE_VERSION 6.1.1
+ENV GRADLE_HOME /usr/bin/gradle
+ENV GRADLE_USER_HOME /cache
+
+ENV PATH $PATH:$GRADLE_HOME/bin
