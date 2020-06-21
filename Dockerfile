@@ -1,12 +1,13 @@
 #
-# GitLab CI: Android v0.3
+# GitLab CI: Android v0.3k
 #
+# Based of: 
 # https://hub.docker.com/r/jangrewe/gitlab-ci-android/
 # https://git.faked.org/jan/gitlab-ci-android
 #
 
 FROM ubuntu:18.04
-MAINTAINER Jan Grewe <jan@faked.org>
+MAINTAINER Andre Carvalho <andre.b.carvalho@accenture.com>
 
 ENV VERSION_TOOLS "6200805"
 
@@ -52,3 +53,10 @@ RUN mkdir -p /root/.android \
 
 RUN while read -r package; do PACKAGES="${PACKAGES}${package} "; done < /sdk/packages.txt \
  && ${ANDROID_HOME}/cmdline-tools/tools/bin/sdkmanager --sdk_root=${ANDROID_HOME} ${PACKAGES}
+
+
+RUN apt-get -qq update \
+ && apt-get install -qqy --no-install-recommends build-essential ruby-full
+
+RUN gem update --system     
+RUN gem install bundler fastlane --no-rdoc --no-ri
