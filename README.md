@@ -4,7 +4,7 @@ This Docker image contains the Android SDK and most common packages, plus Fastla
 A `.gitlab-ci.yml` with caching of your project's dependencies would look like this:
 
 ```
-image: jangrewe/gitlab-ci-android
+image: matchaitv/ci_android_fastlane
 
 stages:
 - build
